@@ -1,0 +1,71 @@
+body {
+  font-family: 'PlayFair,Display',serif;
+  background:#800020;
+  color: #fff;
+  text-align: center;
+}
+
+.weather-container {
+	Display:inline-block;
+	padding:15px;
+	background:#800020;
+	border-radius:10px;
+	box-shadow:
+	0 0 10px #ffdf00,
+	0 0 20px #ffdf00,
+	0 0 40px #ffc000,
+	0 0 80px #ffe773;
+}
+.welcome{
+	margin-top:100px;
+	border-radius:10px;
+	display:inline-block;
+	background:#800020;
+	box-shadow:
+	0 0 10px #ffdf00,
+	0 0 20px #ffdf00,
+	0 0 40px #ffc000,
+	0 0 80px #ffe773;
+	color:gold;
+}
+.welcome:hover{
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.getWeather{
+	background:#EEDEC5;
+	cursor:pointer;
+	border-radius:7px;
+	height:30px;
+	border-color:#800020;
+	border:solid 1px;
+}
+.getWeather:hover{
+	background:white;
+	color:#800020;
+}
+#city{
+	border-radius:7px;
+	height:30px;
+	border-color:#800020;
+	border:solid 1px;
+}
+#city:hover{
+	background:#EEDEC5;
+	color:#800020;
+}
+#by{
+	border-radius:10px;
+	display:inline-block;
+	background:#800020;
+	box-shadow:
+	0 0 10px #ffdf00,
+	0 0 20px #ffdf00,
+	0 0 40px #ffc000,
+	0 0 80px #ffe773;
+	color:gold;
+}
+#by:hover{
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
