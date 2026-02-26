@@ -1,35 +1,58 @@
 async function getWeather() {
   const city = document.getElementById("city").value.trim();
   const apiKey = "d132c594a7e8a0747d576a8667d5b1e3";
+  const resultDiv = document.getElementById("weather-result");
 
   if (!city) {
-    document.getElementById("weather-result").innerHTML =
-      "<p>Please enter a city name</p>";
+    resultDiv.innerHTML = "<p>Please enter a city name</p>";
     return;
   }
 
   try {
-    // Get multiple location matches
+    // Step 1: Get multiple matches
     const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${apiKey}`;
     const geoResponse = await fetch(geoUrl);
-    const geoData = await geoResponse.json();
+    const locations = await geoResponse.json();
 
-    if (!geoData || geoData.length === 0) {
-      document.getElementById("weather-result").innerHTML =
-        "<p>Location not found</p>";
+    if (!locations || locations.length === 0) {
+      resultDiv.innerHTML = "<p>No matching locations found</p>";
       return;
     }
 
-    // Prefer entries that are real cities
-    const selectedLocation = geoData.find(loc => loc.state) || geoData[0];
+    // Step 2: Show all matching results
+    resultDiv.innerHTML = "<h4>Select a location:</h4>";
 
-    const { lat, lon, name, country } = selectedLocation;
+    locations.forEach(location => {
+      const option = document.createElement("p");
+      option.style.cursor = "pointer";
+      option.style.margin = "5px 0";
+      option.innerHTML = `📍 ${location.name}, ${location.state || ""} ${location.country}`;
+
+      option.onclick = () => {
+        fetchWeatherByCoords(location.lat, location.lon, location.name, location.country);
+      };
+
+      resultDiv.appendChild(option);
+    });
+
+  } catch (error) {
+    resultDiv.innerHTML = "<p>Something went wrong</p>";
+    console.error(error);
+  }
+}
+
+async function fetchWeatherByCoords(lat, lon, name, country) {
+  const apiKey = "YOUR_API_KEY";
+  const resultDiv = document.getElementById("weather-result");
+
+  try {
+    resultDiv.innerHTML = "<p>Loading...</p>";
 
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-    const weatherResponse = await fetch(weatherUrl);
-    const data = await weatherResponse.json();
+    const response = await fetch(weatherUrl);
+    const data = await response.json();
 
-    document.getElementById("weather-result").innerHTML = `
+    resultDiv.innerHTML = `
       <h3>${name}, ${country}</h3>
       <p>🌡️ ${data.main.temp} °C</p>
       <p>☁️ ${data.weather[0].description}</p>
@@ -37,8 +60,7 @@ async function getWeather() {
     `;
 
   } catch (error) {
-    document.getElementById("weather-result").innerHTML =
-      "<p>Something went wrong</p>";
+    resultDiv.innerHTML = "<p>Error fetching weather</p>";
     console.error(error);
   }
 }
